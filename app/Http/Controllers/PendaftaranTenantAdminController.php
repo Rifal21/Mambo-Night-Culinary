@@ -32,6 +32,7 @@ class PendaftaranTenantAdminController extends Controller
     
         // Detail tenant untuk pesan WhatsApp
         $phone = $tenant->phone;
+        $phone = preg_replace('/^0/', '62', $phone);
         $name = $tenant->name;
         $pemilik = $tenant->pemilik;
         $alamat = $tenant->alamat;
@@ -54,7 +55,10 @@ class PendaftaranTenantAdminController extends Controller
         $whatsappLink = "https://wa.me/{$phone}?text=" . urlencode($message);
     
         // Redirect ke link WhatsApp dan tampilkan pesan sukses
-        return Redirect::to($whatsappLink)->with('success', 'Pendaftaran berhasil diverifikasi.');
+        return redirect()->route('admin.pendaftaran.index')->with([
+            'success' => 'Pendaftaran berhasil diverifikasi.',
+            'whatsappLink' => $whatsappLink
+        ]);
     }
 
 public function tolak($id)
@@ -67,8 +71,12 @@ public function tolak($id)
         return redirect()->back()->with('error', 'Data tenant tidak ditemukan.');
     }
 
+        $tenant->status = 2;
+        $tenant->save();
+
         // Detail tenant untuk pesan WhatsApp
         $phone = $tenant->phone;
+        $phone = preg_replace('/^0/', '62', $phone);
         $name = $tenant->name;
         $pemilik = $tenant->pemilik;
         $alamat = $tenant->alamat;
@@ -92,29 +100,11 @@ public function tolak($id)
 
 
     // Redirect ke link WhatsApp dan tampilkan pesan sukses
-    return Redirect::to($whatsappLink)->with('success', 'Pendaftaran ditolak!');
+    return redirect()->route('admin.pendaftaran.index')->with([
+        'loginError' => 'Pendaftaran ditolak.',
+        'whatsappLink' => $whatsappLink
+    ]);
 }
-    // public function downloadPdf($id)
-    // {
-    //     // Cari tenant berdasarkan ID
-    //     $tenant = PendaftaranTenant::find($id);
-        
-    //     // dd($tenant);
-    //     // Jika tenant atau file tidak ditemukan, kembalikan pesan error
-    //     if (!$tenant || !$tenant->fileimage || !Storage::disk('public')->exists($tenant->fileimage)) {
-    //         return redirect()->back()->with('loginError', 'File tidak ditemukan.');
-    //     }
-
-    //     // Buat view khusus untuk PDF dan berikan data tenant
-    //     $pdf = PDF::loadView('pdf.tenant_details', ['tenant' => $tenant]);
-        
-
-    //     // Tentukan nama file PDF dan tambahkan file tenant dari storage
-    //     $pdfFileName = 'Tenant_' . $tenant->name . '.pdf';
-
-    //     // Buat PDF dan lampirkan file tenant
-    //     return $pdf->stream($pdfFileName);
-    // }
     public function downloadPdf($id)
 {
     // Cari tenant berdasarkan ID

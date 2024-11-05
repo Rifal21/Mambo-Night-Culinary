@@ -103,7 +103,7 @@ Route::get('/all-tenant', function () {
 });
 
 Route::resource('/pendaftaran', PendaftaranTenantController::class);
-Route::get('/admin/pendaftaran', [PendaftaranTenantAdminController::class, 'index'])->middleware('admin');
+Route::get('/admin/pendaftaran', [PendaftaranTenantAdminController::class, 'index'])->name('admin.pendaftaran.index')->middleware('admin');
 Route::get('/admin/pendaftaran/{id}/verifikasi', [PendaftaranTenantAdminController::class, 'verifikasi'])->name('pendaftaran.verifikasi')->middleware('admin');
 Route::get('/admin/pendaftaran/{id}/tolak', [PendaftaranTenantAdminController::class, 'tolak'])->name('pendaftaran.tolak')->middleware('admin');
 Route::get('/pendaftaran/download/{id}', [PendaftaranTenantAdminController::class, 'downloadPdf'])->name('pendaftaran.download')->middleware('admin');

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  @vite('resources/css/app.css','resources/js/app.js')
-  {{-- <link rel="stylesheet" href="/build/assets/app-rzS1EquT.css"> --}}
+  {{-- @vite('resources/css/app.css','resources/js/app.js') --}}
+  <link rel="stylesheet" href="/build/assets/app-CjIMCmYn.css">
   <link rel="icon" href="../image/logo.png">
   <title>Mambo Night Culinary</title>
 </head>

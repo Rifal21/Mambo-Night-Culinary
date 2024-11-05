@@ -52,7 +52,7 @@
 
   <ul class="space-y-2">
     @foreach ($kategori as $item)
-    <li class="flex justify-between items-center hover:bg-transparent hover:shadow-lg w-full p-2 rounded-lg cursor-pointer transform hover:scale-105 transition-transform" onclick="openModalViewKategori({{ json_encode($item) }})">
+    <li class="flex justify-between items-center hover:bg-transparent hover:shadow-lg w-full p-2 rounded-lg cursor-pointer transform hover:scale-105 transition-transform" >
         <div class="flex items-center">
             <span class="w-1 h-6 bg-secondary mr-2"></span>
             <span class="text-gray-700">{{ $item->name }}</span>

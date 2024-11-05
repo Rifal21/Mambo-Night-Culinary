@@ -1,7 +1,7 @@
 @php
     $navItems = [
     ['name' => 'Dashboard', 'link' => '/admin/dashboard', 'icon' => '/image/icon/home.svg'],
-    ['name' => 'Rekomendasi Menu', 'link' => '/admin/rekomendasi', 'icon' => '/image/icon/rekomen.svg'],
+    // ['name' => 'Rekomendasi Menu', 'link' => '/admin/rekomendasi', 'icon' => '/image/icon/rekomen.svg'],
     ['name' => 'Tenant', 'link' => '/admin/tenant', 'icon' => '/image/icon/tenant.svg'],
     ['name' => 'Menu', 'link' => '/admin/menu', 'icon' => '/image/icon/menu.svg'],
     ['name' => 'Artikel', 'link' => '/admin/artikel', 'icon' => '/image/icon/artikel.svg'],

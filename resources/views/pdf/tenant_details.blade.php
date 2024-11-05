@@ -118,7 +118,7 @@
         
         <div class="section">
             <strong>Status:</strong>
-            <span class="value">{{ $tenant->status === 1 ? 'Sudah Verifikasi' : 'Belum Verifikasi' }}</span>
+            <span class="value">{{ $tenant->status === 0 ? 'Belum Verifikasi' : ($tenant->status === 1 ? 'Sudah Verifikasi' : 'Ditolak') }}</span>
         </div>
 
         @if ($isImage)

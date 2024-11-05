@@ -11,10 +11,16 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 5000,
+            timer: 2000,
             timerProgressBar: true,
             customClass: {
                 popup: 'colored-toast'
+            }
+        }).then(() => {
+            // Redirect to WhatsApp after toast message
+            const whatsappLink = "{{ session('whatsappLink') }}";
+            if (whatsappLink) {
+                window.location.href = whatsappLink;
             }
         });
     });
@@ -30,10 +36,16 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 5000,
+            timer: 2000,
             timerProgressBar: true,
             customClass: {
                 popup: 'colored-toast'
+            }
+        }).then(() => {
+            // Redirect to WhatsApp after toast message
+            const whatsappLink = "{{ session('whatsappLink') }}";
+            if (whatsappLink) {
+                window.location.href = whatsappLink;
             }
         });
     });
@@ -106,19 +118,19 @@
                         <span class="text-gray-500">Tidak ada file</span>
                     @endif
                 </td>
-                  <td class="py-3 px-4">{{ $item->status === 0 ? 'Belum Verifikasi' : 'Sudah Verifikasi'  }}</td>
+                  <td class="py-3 px-4">   {{ $item->status === 0 ? 'Belum Verifikasi' : ($item->status === 1 ? 'Sudah Verifikasi' : 'Ditolak') }}</td>
                   @if($item->status === 0)
                   <td class="py-3 px-4 text-center space-x-2 flex">
-                    <a href="{{ route('pendaftaran.verifikasi', $item->id) }}" class="text-white bg-green-500 p-2 rounded-lg " target="_blank">
+                    <a href="{{ route('pendaftaran.verifikasi', $item->id) }}" class="text-white bg-green-500 p-2 rounded-lg " >
                       <i class="fas fa-check"></i> <span class="hidden sm:inline">Verifikasi</span>
                   </a>
-                  <a href="{{ route('pendaftaran.tolak', $item->id) }}" class="text-white bg-red-500 p-2 rounded-lg" target="_blank">
+                  <a href="{{ route('pendaftaran.tolak', $item->id) }}" class="text-white bg-red-500 p-2 rounded-lg" >
                       <i class="fas fa-times"></i> <span class="hidden sm:inline">Tolak</span>
                   </a>
                   </td>
                   @else
                   <td class="py-3 px-4 text-center space-x-2 flex justify-center items-center">
-                    <a href="{{ route('pendaftaran.download', $item->id) }}" class="text-white bg-secondary p-2 rounded-lg">
+                    <a href="{{ route('pendaftaran.download', $item->id) }}" class="text-white bg-secondary p-2 rounded-lg" >
                         <i class="fas fa-download"></i> <span class="hidden sm:inline">Download</span>
                     </a>
                 </td>
