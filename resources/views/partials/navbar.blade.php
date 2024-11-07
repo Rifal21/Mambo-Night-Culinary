@@ -6,6 +6,7 @@ $navItems = [
     ['name' => 'Menu', 'link' => '/menu-list', 'icon' => '/image/icon/menu.svg'],
     ['name' => 'Artikel', 'link' => '#', 'icon' => '/image/icon/artikel.svg'],
     ['name' => 'Pendaftaran Tenant', 'link' => '/pendaftaran', 'icon' => '/image/icon/pendaftaran.svg'],
+    ['name' => 'Login', 'link' => '/login', 'icon' => '/image/icon/login.svg'],
 ];
 @endphp
 
