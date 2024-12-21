@@ -117,8 +117,10 @@ Route::resource('/admin/kategori-artikel', KategoriArtikelController::class)->mi
 Route::get('/artikel', function () {
     return view('artikel', [
         'title' => 'List Menu Makanan',
+
         'artikels' => Artikel::latest()->paginate(9),
-        'kategoriAll' => KategoriArtikel::all()
+        'kategoriAll' => KategoriMakanan::all(),
+        'kategoriArtikel' => KategoriArtikel::all()
     ]);
 });
 

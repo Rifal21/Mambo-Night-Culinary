@@ -104,9 +104,23 @@
                 <form action="/admin/tenant" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label class="block text-gray-700 mb-2">Nama Tenant</label>
-                    <input type="text" name="name" id="name" class="border border-gray-300 p-2 w-full mb-4" />
+                    <input type="text" name="name" id="name" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan Nama Tenant" />
                     <label class="block text-gray-700 mb-2">Alamat</label>
-                    <input type="text" name="alamat" id="alamat" class="border border-gray-300 p-2 w-full mb-4" />
+                    <input type="text" name="alamat" id="alamat" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan Alamat Tenant" />
+                    <label class="block text-gray-700 mb-2">Username Instagram</label>
+                    <input type="text" name="ig" id="ig" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan Instagram Tenant" />
+                    <label class="block text-gray-700 mb-2">Username Tiktok</label>
+                    <input type="text" name="tt" id="tt" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan Tiktok Tenant" />
+                    <label class="block text-gray-700 mb-2">Go Food</label>
+                    <input type="text" name="gofood" id="gofood" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan GoFood Tenant" />
+                    <label class="block text-gray-700 mb-2">Grab Food</label>
+                    <input type="text" name="grabfood" id="grabfood" class="border border-gray-300 p-2 w-full mb-4"
+                        placeholder="Masukkan GrabFood Tenant" />
                     <label class="block text-gray-700 mb-2">Gambar</label>
                     <input type="file" name="gambar" id="gambar" class="border border-gray-300 p-2 w-full mb-4"
                         onchange="previewImage(event)" />
@@ -141,6 +155,10 @@
                 <div class="flex flex-col justify-start  items-start">
                     <h2 id="nameImage" class="text-base font-normal text-center mb-2"></h2>
                     <h2 id="alamatTenant" class="text-base font-normal text-center mb-2"></h2>
+                    <h2 id="instagram" class="text-base font-normal text-center mb-2"></h2>
+                    <h2 id="tiktok" class="text-base font-normal text-center mb-2"></h2>
+                    <h2 id="goFood" class="text-base font-normal text-center mb-2"></h2>
+                    <h2 id="grabFood" class="text-base font-normal text-center mb-2"></h2>
                 </div>
                 <div id="modalImageContainer" class="flex justify-center items-center">
                     <img id="modalImage" src="" alt="Slider Image" class="w-full h-auto rounded-lg" />
@@ -170,6 +188,18 @@
                         class="border border-gray-300 p-2 w-full mb-4" />
                     <label class="block text-gray-700 mb-2">Alamat Tenant</label>
                     <input type="text" name="alamat" id="updateAlamat"
+                        class="border border-gray-300 p-2 w-full mb-4" />
+                    <label class="block text-gray-700 mb-2">Instagram</label>
+                    <input type="text" name="ig" id="updateIg"
+                        class="border border-gray-300 p-2 w-full mb-4" />
+                    <label class="block text-gray-700 mb-2">Tiktok</label>
+                    <input type="text" name="tt" id="updateTt"
+                        class="border border-gray-300 p-2 w-full mb-4" />
+                    <label class="block text-gray-700 mb-2">Go Food</label>
+                    <input type="text" name="gofood" id="updateGoFood"
+                        class="border border-gray-300 p-2 w-full mb-4" />
+                    <label class="block text-gray-700 mb-2">Grab Food</label>
+                    <input type="text" name="grabfood" id="updateGrabFood"
                         class="border border-gray-300 p-2 w-full mb-4" />
 
                     <label class="block text-gray-700 mb-2">Gambar</label>
@@ -202,10 +232,18 @@
             // Set the image source for the modal image element
             const modalImage = document.getElementById("modalImage");
             const nameImage = document.getElementById("nameImage");
+            const ig = document.getElementById("instagram");
+            const tt = document.getElementById("tiktok");
+            const gofood = document.getElementById("goFood");
+            const grabfood = document.getElementById("grabFood");
             const alamatTenant = document.getElementById("alamatTenant");
             modalImage.src = item.gambar ? `/storage/${item.gambar}` : 'path/to/placeholder-image.jpg';
             nameImage.innerHTML = "Nama Tenant : " + item.name;
             alamatTenant.innerHTML = "Alamat : " + item.alamat;
+            ig.innerHTML = "Instagram : " + item.ig;
+            tt.innerHTML = "Tiktok : " + item.tt;
+            gofood.innerHTML = "Go Food : " + item.gofood;
+            grabfood.innerHTML = "Grab Food : " + item.grabfood;
             // Show the modal
             document.getElementById("modalview").classList.remove("hidden");
         }
@@ -239,6 +277,10 @@
             const updateForm = document.getElementById("updateForm");
             const updateName = document.getElementById("updateName");
             const updateAlamat = document.getElementById("updateAlamat");
+            const updateIg = document.getElementById("updateIg");
+            const updateTt = document.getElementById("updateTt");
+            const updateGoFood = document.getElementById("updateGoFood");
+            const updateGrabFood = document.getElementById("updateGrabFood");
             const updateImagePreview = document.getElementById("updateImagePreview");
 
             // Set form action to update route
@@ -246,6 +288,10 @@
 
             // Set existing values in input fields
             updateName.value = item.name;
+            updateIg.value = item.ig;
+            updateTt.value = item.tt;
+            updateGoFood.value = item.gofood;
+            updateGrabFood.value = item.grabfood;
             updateAlamat.value = item.alamat;
             if (item.gambar) {
                 updateImagePreview.innerHTML =

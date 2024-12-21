@@ -16,7 +16,7 @@ class TenantController extends Controller
     public function index()
     {
         return view('admin.tenant.index', [
-            'tenant' => Tenant::paginate(6)
+            'tenant' => Tenant::latest()->paginate(6)
         ]);
     }
 
@@ -36,16 +36,20 @@ class TenantController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'alamat' => 'required',
+            'ig' => 'required',
+            'tt' => 'required',
+            'gofood' => 'required',
+            'grabfood' => 'required',
             'gambar' => 'image|file',
         ]);
 
-        if($request->file('gambar')){
-            $validatedData['gambar'] = $request->file('gambar')->store('gambar-tenant'); 
+        if ($request->file('gambar')) {
+            $validatedData['gambar'] = $request->file('gambar')->store('gambar-tenant');
         }
 
         Tenant::create($validatedData);
 
-        return redirect('/admin/tenant')->with('success' , 'Tenant baru berhasil ditambahkan!');
+        return redirect('/admin/tenant')->with('success', 'Tenant baru berhasil ditambahkan!');
     }
 
     /**
@@ -71,14 +75,18 @@ class TenantController extends Controller
     {
         $rules = [
             'name' => 'required|max:255',
-            'alamat' => 'required',
+            'alamat' => 'max:225',
+            'ig' => 'max:225',
+            'tt' => 'max:225',
+            'gofood' => 'max:225',
+            'grabfood' => 'max:225',
             'gambar' => 'image|file',
         ];
-    
+
         $validatedData = $request->validate($rules);
-    
+
         $tenant = Tenant::findOrFail($id);
-    
+
         // Check if a new image file is uploaded
         if ($request->file('gambar')) {
             // Delete old image if it exists
@@ -88,11 +96,11 @@ class TenantController extends Controller
             // Store new image
             $validatedData['gambar'] = $request->file('gambar')->store('gambar-tenant');
         }
-    
+
         // Update the category with validated data
         $tenant->update($validatedData);
         // dd($kategoriMakanan);
-    
+
         return redirect('/admin/tenant')->with('success', 'Tenant berhasil diupdate!');
     }
 
@@ -105,7 +113,7 @@ class TenantController extends Controller
 
         Storage::delete($tenant->gambar);
 
-    
+
         $tenant->delete();
 
         //redirect to index

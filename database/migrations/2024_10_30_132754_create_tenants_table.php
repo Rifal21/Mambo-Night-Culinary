@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('alamat')->nullable();
+            $table->string('ig')->nullable();
+            $table->string('tt')->nullable();
+            $table->string('gofood')->nullable();
+            $table->string('grabfood')->nullable();
             $table->string('gambar')->nullable();
             $table->timestamps();
         });
