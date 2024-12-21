@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('pemilik');
             $table->string('brand');
+            $table->string('ig');
+            $table->string('tt');
             $table->string('email')->unique();
             $table->string('alamat');
             $table->string('asli');

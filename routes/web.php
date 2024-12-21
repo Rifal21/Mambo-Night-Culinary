@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Models\Menu;
 use App\Models\Banner;
 use App\Models\Tenant;
@@ -11,12 +12,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\KategoriArtikelController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\KategoriMakananController;
 use App\Http\Controllers\PendaftaranTenantController;
 use App\Http\Controllers\PendaftaranTenantAdminController;
+use App\Models\Artikel;
+use App\Models\KategoriArtikel;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,16 +36,16 @@ use App\Http\Controllers\PendaftaranTenantAdminController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login',[LoginController::class, 'authenticate']);
-Route::post('/logout',[LoginController::class, 'logout'])->middleware('admin');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('admin');
 
 Route::resource('/admin/dashboard', BannerController::class)->middleware('admin');
-Route::resource('/admin/tenant' , TenantController::class)->middleware('admin');
+Route::resource('/admin/tenant', TenantController::class)->middleware('admin');
 Route::resource('/admin/menu', KategoriMakananController::class)->middleware('admin');
 Route::resource('/admin/menu-list', MenuController::class)->middleware('admin');
 Route::resource('/admin/rekomendasi', RekomendasiController::class)->middleware('admin');
 
-Route::get('/menu-list' , function(){
+Route::get('/menu-list', function () {
     return view('menuHome', [
         'title' => 'List Menu Makanan',
         'kategoriAll' => KategoriMakanan::all()
@@ -107,3 +111,19 @@ Route::get('/admin/pendaftaran', [PendaftaranTenantAdminController::class, 'inde
 Route::get('/admin/pendaftaran/{id}/verifikasi', [PendaftaranTenantAdminController::class, 'verifikasi'])->name('pendaftaran.verifikasi')->middleware('admin');
 Route::get('/admin/pendaftaran/{id}/tolak', [PendaftaranTenantAdminController::class, 'tolak'])->name('pendaftaran.tolak')->middleware('admin');
 Route::get('/pendaftaran/download/{id}', [PendaftaranTenantAdminController::class, 'downloadPdf'])->name('pendaftaran.download')->middleware('admin');
+Route::resource('/admin/artikel', ArtikelController::class)->middleware('admin');
+Route::resource('/admin/kategori-artikel', KategoriArtikelController::class)->middleware('admin');
+
+Route::get('/artikel', function () {
+    return view('artikel', [
+        'title' => 'List Menu Makanan',
+        'artikels' => Artikel::latest()->paginate(9),
+        'kategoriAll' => KategoriArtikel::all()
+    ]);
+});
+
+Route::get('/artikel/{slug}', function ($slug) {
+    $artikel = Artikel::with('kategori_artikel')->where('slug', $slug)->firstOrFail();
+    $latestArtikel = Artikel::latest()->take(5)->get();
+    return view('detailArtikel', compact('artikel', 'latestArtikel'));
+});

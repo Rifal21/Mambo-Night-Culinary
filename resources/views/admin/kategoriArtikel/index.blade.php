@@ -41,7 +41,7 @@
 
     <div class="p-6 max-w-md md:max-w-[75%] md:ml-72 bg-[#F8F8F8] rounded-lg shadow-xl">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold text-gray-700 border-b-2 border-secondary">Kategori Makanan</h2>
+            <h2 class="text-lg font-bold text-gray-700 border-b-2 border-secondary">Kategori Artikel</h2>
             <button class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg" onclick="openModalCreateKategori()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -66,7 +66,7 @@
                             onclick="openModalViewKategori({{ json_encode($item) }})">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <form action="/admin/menu/{{ $item->id }}" method="POST" class="d-inline">
+                        <form action="/admin/kategori-artikel/{{ $item->id }}" method="POST" class="d-inline">
                             @method('DELETE')
                             @csrf
                             <button class="text-red-500 hover:text-red-600" onclick="return confirm('Are you sure?')">
@@ -79,7 +79,7 @@
         </ul>
 
         <div class="flex justify-center mt-4">
-            {{ $kategori->links() }}
+            {{-- {{ $kategori->links() }} --}}
         </div>
     </div>
 
@@ -92,20 +92,13 @@
                         clip-rule="evenodd" />
                 </svg>
             </button>
-            <h2 class="text-xl font-bold text-center mb-4">Tambah Kategori Makanan</h2>
-            <div class="overflow-y-auto no-scrollbar h-[320px]">
-                <form action="/admin/menu" method="POST" enctype="multipart/form-data">
+            <h2 class="text-xl font-bold text-center mb-4">Tambah Kategori Artikel</h2>
+            <div class="overflow-y-auto no-scrollbar ">
+                <form action="/admin/kategori-artikel" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label class="block text-gray-700 mb-2">Nama Kategori</label>
-                    <input type="text" name="name" class="border w-full px-3 py-2 rounded-lg mb-4" required>
-
-                    <label class="block text-gray-700 mb-2">Gambar</label>
-                    <input type="file" name="gambar" class="border w-full px-3 py-2 rounded-lg mb-4" accept="image/*"
-                        onchange="previewImageKategori(event)">
-                    <div id="imageKategoriPreview"
-                        class="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">No Image
-                        Selected</div>
-
+                    <input type="text" name="name" class="border w-full px-3 py-2 rounded-lg mb-4"
+                        placeholder="Nama Kategori" required>
                     <button type="submit"
                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full">Simpan</button>
                 </form>
@@ -123,11 +116,8 @@
                 </svg>
             </button>
             <h2 class="text-xl font-bold text-center mb-4">Preview Kategori</h2>
-            <div class="overflow-y-auto no-scrollbar h-[320px]">
+            <div class="overflow-y-auto no-scrollbar ">
                 <h2 id="nameImageKategori" class="text-xl font-normal text-center mb-4"></h2>
-                <div id="modalImageContainer" class="flex justify-center items-center">
-                    <img id="modalImageKategori" src="" alt="Slider Image" class="w-full h-auto rounded-lg" />
-                </div>
             </div>
         </div>
     </div>
@@ -142,21 +132,13 @@
                 </svg>
             </button>
             <h2 class="text-xl font-bold text-center mb-4">Update Kategori Makanan</h2>
-            <div class="overflow-y-auto no-scrollbar h-[320px]">
+            <div class="overflow-y-auto no-scrollbar ">
                 <form action="" method="POST" enctype="multipart/form-data" id="updateForm">
                     @csrf
                     @method('PUT')
                     <label class="block text-gray-700 mb-2">Nama Kategori</label>
                     <input type="text" name="name" id="updateNameKategori"
                         class="border w-full px-3 py-2 rounded-lg mb-4" required>
-
-                    <label class="block text-gray-700 mb-2">Gambar</label>
-                    <input type="file" name="gambar" class="border w-full px-3 py-2 rounded-lg mb-4"
-                        accept="image/*" onchange="previewUpdateImage(event)">
-                    <div id="updateImagePreview"
-                        class="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">No Image
-                        Selected</div>
-
                     <button type="submit"
                         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full">Update</button>
                 </form>
@@ -169,10 +151,10 @@
             document.getElementById("modalCreateKategori").classList.remove("hidden");
         }
 
+
         function openModalViewKategori(item) {
             const modalImage = document.getElementById("modalImageKategori");
             const nameImage = document.getElementById("nameImageKategori");
-            modalImage.src = item.gambar ? `/storage/${item.gambar}` : 'path/to/placeholder-image.jpg';
             nameImage.innerHTML = "Kategori : " + item.name;
             document.getElementById("modalviewkategori").classList.remove("hidden");
         }
@@ -185,53 +167,18 @@
             document.getElementById("modalviewkategori").classList.add("hidden");
         }
 
-        function previewImageKategori(event) {
-            const imagePreview = document.getElementById('imageKategoriPreview');
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.innerHTML =
-                        `<img src="${e.target.result}" class="w-full h-full object-cover rounded-lg" />`;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.innerHTML = '<span class="text-gray-500">No Image Selected</span>';
-            }
-        }
 
         function openModalUpdateKategori(item) {
             const modal = document.getElementById("modalUpdateKategori");
             const updateForm = document.getElementById("updateForm");
             const updateName = document.getElementById("updateNameKategori");
-            const updateImagePreview = document.getElementById("updateImagePreview");
-            updateForm.action = `/admin/menu/${item.id}`;
+            updateForm.action = `/admin/kategori-artikel/${item.id}`;
             updateName.value = item.name;
-            updateImagePreview.innerHTML = item.gambar ?
-                `<img src="/storage/${item.gambar}" class="w-full h-full object-cover rounded-lg" />` :
-                '<span class="text-gray-500">No Image Selected</span>';
             modal.classList.remove("hidden");
         }
 
         function closeModalUpdateKategori() {
             document.getElementById("modalUpdateKategori").classList.add("hidden");
         }
-
-        function previewUpdateImage(event) {
-            const updateImagePreview = document.getElementById('updateImagePreview');
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    updateImagePreview.innerHTML =
-                        `<img src="${e.target.result}" class="w-full h-full object-cover rounded-lg" />`;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                updateImagePreview.innerHTML = '<span class="text-gray-500">No Image Selected</span>';
-            }
-        }
     </script>
-
-    @include('admin.menu.menu')
 @endSection

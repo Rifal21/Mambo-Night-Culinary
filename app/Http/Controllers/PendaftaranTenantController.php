@@ -32,6 +32,8 @@ class PendaftaranTenantController extends Controller
             'pemilik' => 'required',
             'alamat' => 'required',
             'brand' => 'required',
+            'ig' => 'required',
+            'tt' => 'required',
             'email' => 'required',
             'asli' => 'required',
             'status' => 'nullable',
@@ -41,13 +43,12 @@ class PendaftaranTenantController extends Controller
         ]);
 
 
-        if($request->file('fileimage')){
-            $validatedData['fileimage'] = $request->file('fileimage')->store('fileorimage'); 
+        if ($request->file('fileimage')) {
+            $validatedData['fileimage'] = $request->file('fileimage')->store('fileorimage');
         }
         // dump($validatedData);
         PendaftaranTenant::create($validatedData);
 
-        return redirect()->back()->with('success' , 'Pendaftaran tenant berhasil diajukan!');
+        return redirect()->back()->with('success', 'Pendaftaran tenant berhasil diajukan!');
     }
-
 }
